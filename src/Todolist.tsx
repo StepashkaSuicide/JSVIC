@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {FilterType} from "./App";
 
 type TaskType = {
     id: number
@@ -9,9 +10,32 @@ type TaskType = {
 type PropsType = {
     title: string
     tasks: Array<TaskType>
+    removeTask: (id: number) => void
+
 }
 
 export function Todolist(props: PropsType) {
+
+    const [valueFilter, setValueFilter] = useState<FilterType>('All')
+    const taskFilter = (value: FilterType) => {
+        setValueFilter(value)
+    }
+
+    const completedFilterFoo = ()=> {
+        let completedFilter = props.tasks
+
+        switch (valueFilter) {
+            case 'Active' : {
+                return completedFilter = props.tasks.filter(el => !el.isDone)
+            }
+            case 'Completed': {
+               return  completedFilter = props.tasks.filter(el => el.isDone)
+            }
+            default:
+                return completedFilter
+        }
+    }
+
     return <div>
         <h3>{props.title}</h3>
         <div>
@@ -19,16 +43,21 @@ export function Todolist(props: PropsType) {
             <button>+</button>
         </div>
         <ul>
-            {props.tasks.map(el => {
+            {completedFilterFoo().map(el => {
                 return (
-                    <li><input type="checkbox" checked={el.isDone}/> <span>{el.title}</span></li>
+
+                    <li key={el.id}>
+                        <button onClick={() => {props.removeTask(el.id)}}>x</button>
+                        <input onChange={() => {}} type="checkbox" checked={el.isDone}/>
+                        <span>{el.title}</span>
+                    </li>
                 )
             })}
         </ul>
         <div>
-            <button>All</button>
-            <button>Active</button>
-            <button>Completed</button>
+            <button onClick={() => {taskFilter('All')}}>All</button>
+            <button onClick={() => {taskFilter('Active')}}>Active</button>
+            <button onClick={() => {taskFilter('Completed')}}>Completed</button>
         </div>
     </div>
 }
