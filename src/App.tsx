@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from './Todolist';
 import {Button} from "./components/Button";
-import {FullInput} from "./components/FullInput";
+import {Input} from "./components/Input";
 
 
 export type FilterType = 'All' | 'Active' | 'Completed'
@@ -15,14 +14,23 @@ function App() {
         {message: 'message3'}
     ])
 
-const addMessage = (title: string)=> {
+    const [title, setTitle] = useState('')
+
+    const addMessage = () => {
         let newMessage = {message: title}
         setMessages([newMessage, ...messages])
-}
+    }
 
+
+    const callBackHandler = () => {
+        addMessage()
+        setTitle('')
+    }
     return (
         <div>
-            <FullInput addMessage={addMessage}/>
+            <Input title={title} setTitle={setTitle}/>
+            <Button name={'X'} callBack={callBackHandler}/>
+
             {messages.map((f, index) => {
                 return (
                     <div key={index}>{f.message}</div>
@@ -30,10 +38,6 @@ const addMessage = (title: string)=> {
             })}
         </div>
     )
-
-
-
-
 
 
 
