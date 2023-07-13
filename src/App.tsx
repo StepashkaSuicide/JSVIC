@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './App.css';
 import {Button} from "./components/Button";
 import {Input} from "./components/Input";
@@ -7,6 +7,10 @@ import {Input} from "./components/Input";
 export type FilterType = 'All' | 'Active' | 'Completed'
 
 function App() {
+    // const [title, setTitle] = useState('')
+
+
+    const newTitle = useRef<HTMLInputElement>(null)
 
     let [messages, setMessages] = useState([
         {message: 'message1'},
@@ -14,21 +18,22 @@ function App() {
         {message: 'message3'}
     ])
 
-    const [title, setTitle] = useState('')
 
     const addMessage = () => {
-        let newMessage = {message: title}
-        setMessages([newMessage, ...messages])
-    }
+        if (newTitle.current){
+            let newMessage = {message: newTitle.current.value}
+            setMessages([newMessage, ...messages])
+            newTitle.current.value=''
+        }
 
+    }
 
     const callBackHandler = () => {
         addMessage()
-        setTitle('')
     }
     return (
         <div>
-            <Input title={title} setTitle={setTitle}/>
+            <Input newTitle={newTitle} />
             <Button name={'X'} callBack={callBackHandler}/>
 
             {messages.map((f, index) => {
