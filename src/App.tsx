@@ -1,166 +1,63 @@
 import React, {useRef, useState} from 'react';
 import './App.css';
-import {Button} from "./components/Button";
-import {Input} from "./components/Input";
+import {Todolist} from './Todolist';
+import {v1} from "uuid";
 
-
-export type FilterType = 'All' | 'Active' | 'Completed'
+export type FilterValuesType = "all" | "active" | "completed";
 
 function App() {
-    // const [title, setTitle] = useState('')
+
+    let [tasks, setTasks] = useState([
+        { id: v1(), title: "HTML&CSS", isDone: true },
+        { id: v1(), title: "JS", isDone: true },
+        { id: v1(), title: "ReactJS", isDone: false },
+        { id: v1(), title: "Rest API", isDone: false },
+        { id: v1(), title: "GraphQL", isDone: false },
+    ]);
 
 
-    const newTitle = useRef<HTMLInputElement>(null)
+    const titleTask = useRef<HTMLInputElement>(null)
 
-    let [messages, setMessages] = useState([
-        {message: 'message1'},
-        {message: 'message2'},
-        {message: 'message3'}
-    ])
+    function removeTask(id: string) {
+        let filteredTasks = tasks.filter(t => t.id != id);
+        setTasks(filteredTasks);
+    }
 
+    let [filter, setFilter] = useState<FilterValuesType>("all");
 
-    const addMessage = () => {
-        if (newTitle.current){
-            let newMessage = {message: newTitle.current.value}
-            setMessages([newMessage, ...messages])
-            newTitle.current.value=''
+    let tasksForTodolist = tasks;
+
+    if (filter === "active") {
+        tasksForTodolist = tasks.filter(t => !t.isDone);
+    }
+    if (filter === "completed") {
+        tasksForTodolist = tasks.filter(t => t.isDone);
+    }
+
+    function changeFilter(value: FilterValuesType) {
+        setFilter(value);
+    }
+    const addTask = ()=> {
+
+        if (titleTask.current){
+            let newTask = { id: v1(), title: titleTask.current.value, isDone: true }
+            setTasks([newTask, ...tasks])
+            titleTask.current.value=''
         }
 
     }
 
-    const callBackHandler = () => {
-        addMessage()
-    }
     return (
-        <div>
-            <Input newTitle={newTitle} />
-            <Button name={'X'} callBack={callBackHandler}/>
-
-            {messages.map((f, index) => {
-                return (
-                    <div key={index}>{f.message}</div>
-                )
-            })}
+        <div className="App">
+            <Todolist title="What to learn"
+                      titleTask={titleTask}
+                      tasks={tasksForTodolist}
+                      addTask={addTask}
+                      removeTask={removeTask}
+                      changeFilter={changeFilter} />
         </div>
-    )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // let [tasks, setTasks] = useState([
-    //     {id: 0, title: "HTML&CSS", isDone: true},
-    //     {id: 1, title: "HTML&CSS", isDone: true},
-    //     {id: 2, title: "JS", isDone: true},
-    //     {id: 3, title: "ReactJS1", isDone: false},
-    //     {id: 4, title: "ReactJS2", isDone: false},
-    //     {id: 5, title: "ReactJS3", isDone: false},
-    // ])
-    //
-    //
-    // const removeTask = (id: number) => {
-    //     setTasks(tasks.filter(el => el.id !== id))
-    // }
-    // // const ButtonFoo1 = (sub: string) => {
-    // //     console.log(sub)
-    // // }
-    // // const ButtonFoo2 = (sub: string) => {
-    // //     console.log(sub)
-    // // }
-    //
-    // type carsType = {
-    //     manufacturer: string
-    //     model: string
-    // }
-    //
-    // type moneyType = {
-    //     banknots: string
-    //     value: number
-    //     number: string
-    // }
-    // type moneyType1 = Array<moneyType>
-    //
-    //
-    // const [money, setMoney] = useState<moneyType1>([
-    //     {banknots: 'Dollars', value: 100, number: ' a1234567890'},
-    //     {banknots: 'Dollars', value: 50, number: ' z1234567890'},
-    //     {banknots: 'RUBLS', value: 100, number: ' w1234567890'},
-    //     {banknots: 'Dollars', value: 100, number: ' e1234567890'},
-    //     {banknots: 'Dollars', value: 50, number: ' c1234567890'},
-    //     {banknots: 'RUBLS', value: 100, number: ' r1234567890'},
-    //     {banknots: 'Dollars', value: 50, number: ' x1234567890'},
-    //     {banknots: 'RUBLS', value: 50, number: ' v1234567890'},
-    // ])
-    //
-    // const filterMoneyDoll = () => {
-    //     console.log(money.filter(f => f.banknots === 'Dollars').map(m => m.banknots))
-    // }
-    // const filterMoneyRub = () => {
-    //
-    // }
-    //
-    // const topCars = [
-    //     {manufacturer: 'BMW', model: 'm5cs'},
-    //     {manufacturer: 'Mercedes', model: 'e63s'}, {manufacturer: 'BMW', model: 'm5cs'},
-    //     {manufacturer: 'Mercedes', model: 'e63s'}, {manufacturer: 'BMW', model: 'm5cs'},
-    //     {manufacturer: 'Mercedes', model: 'e63s'}, {manufacturer: 'BMW', model: 'm5cs'},
-    //     {manufacturer: 'Mercedes', model: 'e63s'}, {manufacturer: 'BMW', model: 'm5cs'},
-    //     {manufacturer: 'Mercedes', model: 'e63s'}, {manufacturer: 'BMW', model: 'm5cs'},
-    //     {manufacturer: 'Mercedes', model: 'e63s'}, {manufacturer: 'BMW', model: 'm5cs'},
-    //     {manufacturer: 'Mercedes', model: 'e63s'},
-    //     {manufacturer: 'Audi', model: 'rs6'}
-    // ]
-    //
-    //
-    // return (
-    //
-    //     <div className="App">
-    //         <Button name={'DOLL'} callBack={filterMoneyDoll}/>
-    //         <Button name={'RUB'} callBack={filterMoneyRub}/>
-    //
-    //         <ul>
-    //             {topCars.map((m, index) => {
-    //                 return (
-    //                     <li key={index}>
-    //                         {index+1}
-    //                         {m.model}
-    //                         {m.manufacturer}
-    //                     </li>
-    //                 )
-    //             })}
-    //         </ul>
-    //
-    //         <ul>
-    //             {money.filter(f => f.banknots !== 'Dollars').map(m => <li key={m.number}>{m.banknots}{m.value}{m.number}</li>)}
-    //
-    //         </ul>
-    //         <Todolist
-    //             title="What to learn"
-    //             tasks={tasks}
-    //             removeTask={removeTask}
-    //         />
-    //     </div>
-    // );
+    );
 }
 
 export default App;
+
