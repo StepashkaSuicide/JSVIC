@@ -1,4 +1,4 @@
-import React, {RefObject} from 'react';
+import React, {ChangeEvent, RefObject} from 'react';
 import {FilterValuesType} from './App';
 import {Button} from "./components/Button";
 
@@ -15,6 +15,7 @@ type PropsType = {
     tasks: Array<TaskType>
     removeTask: (taskId: string) => void
     changeFilter: (value: FilterValuesType) => void
+    onCheckedTitle:(tID:string, isDone: boolean)=> void
 }
 
 export function Todolist(props: PropsType) {
@@ -31,8 +32,12 @@ export function Todolist(props: PropsType) {
         props.addTask()
     }
 
+    const onChangeCheckedTitleHandler = (tID: string,e:ChangeEvent<HTMLInputElement> )=> {
+        props.onCheckedTitle(tID, e.currentTarget.checked)
+    }
+
     const mappedTasks = props.tasks.map(t => <li key={t.id}>
-        <input type="checkbox" checked={t.isDone}/>
+        <input onChange={(e)=>onChangeCheckedTitleHandler(t.id, e)} type="checkbox" checked={t.isDone}/>
         <span>{t.title}</span>
         <Button name={'x'} callBack={() => removeTaskHandler(t.id)}/>
     </li>)
@@ -42,7 +47,6 @@ export function Todolist(props: PropsType) {
         <div>
             <input ref={props.titleTask}/>
             <Button name={'+'} callBack={addTaskHandler}/>
-            {/*<button onClick={props.addTask}>+</button>*/}
         </div>
         <ul>
             {mappedTasks}

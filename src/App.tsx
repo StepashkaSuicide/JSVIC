@@ -8,11 +8,11 @@ export type FilterValuesType = "all" | "active" | "completed";
 function App() {
 
     let [tasks, setTasks] = useState([
-        { id: v1(), title: "HTML&CSS", isDone: true },
-        { id: v1(), title: "JS", isDone: true },
-        { id: v1(), title: "ReactJS", isDone: false },
-        { id: v1(), title: "Rest API", isDone: false },
-        { id: v1(), title: "GraphQL", isDone: false },
+        {id: v1(), title: "HTML&CSS", isDone: true},
+        {id: v1(), title: "JS", isDone: true},
+        {id: v1(), title: "ReactJS", isDone: false},
+        {id: v1(), title: "Rest API", isDone: false},
+        {id: v1(), title: "GraphQL", isDone: false},
     ]);
 
 
@@ -37,15 +37,20 @@ function App() {
     function changeFilter(value: FilterValuesType) {
         setFilter(value);
     }
-    const addTask = ()=> {
 
-        if (titleTask.current){
-            let newTask = { id: v1(), title: titleTask.current.value, isDone: true }
+    const addTask = () => {
+
+        if (titleTask.current) {
+            let newTask = {id: v1(), title: titleTask.current.value, isDone: true}
             setTasks([newTask, ...tasks])
-            titleTask.current.value=''
+            titleTask.current.value = ''
         }
 
     }
+    const onCheckedTitle = (tID:string, isDone: boolean) => {
+        setTasks(tasks.map(el=> el.id===tID ? {...el, isDone}: el))
+    }
+
 
     return (
         <div className="App">
@@ -54,7 +59,9 @@ function App() {
                       tasks={tasksForTodolist}
                       addTask={addTask}
                       removeTask={removeTask}
-                      changeFilter={changeFilter} />
+                      changeFilter={changeFilter}
+                      onCheckedTitle={onCheckedTitle}
+            />
         </div>
     );
 }
