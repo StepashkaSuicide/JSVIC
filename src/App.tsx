@@ -3,6 +3,7 @@ import './App.css';
 import {Todolist} from './Todolist';
 import {v1} from "uuid";
 
+
 export type FilterValuesType = "all" | "active" | "completed";
 
 function App() {
@@ -19,8 +20,7 @@ function App() {
     const titleTask = useRef<HTMLInputElement>(null)
 
     function removeTask(id: string) {
-        let filteredTasks = tasks.filter(t => t.id != id);
-        setTasks(filteredTasks);
+        setTasks(tasks.filter(el => el.id !== id))
     }
 
     let [filter, setFilter] = useState<FilterValuesType>("all");
@@ -47,8 +47,8 @@ function App() {
         }
 
     }
-    const onCheckedTitle = (tID:string, isDone: boolean) => {
-        setTasks(tasks.map(el=> el.id===tID ? {...el, isDone}: el))
+    const onCheckedTitle = (tID: string, isDone: boolean) => {
+        setTasks(tasks.map(el => el.id === tID ? {...el, isDone} : el))
     }
 
 
