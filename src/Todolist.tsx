@@ -1,7 +1,8 @@
-import React, {ChangeEvent, RefObject, useState} from 'react';
+import React, {RefObject, useState} from 'react';
 import {FilterValuesType} from './App';
 import {Button} from "./components/Button";
 import s from './components/Todolist.module.css'
+import {CheckBox} from "./components/CheckBox";
 
 type TaskType = {
     id: string
@@ -21,7 +22,7 @@ type PropsType = {
 
 export function Todolist(props: PropsType) {
 
-    const [error, setError]= useState<null | string>(null)
+    const [error, setError] = useState<null | string>(null)
     const [buttonName, setButtonName] = useState('all')
 
     const tsarChangeFilter = (value: FilterValuesType) => {
@@ -36,22 +37,22 @@ export function Todolist(props: PropsType) {
     const addTaskHandler = () => {
         if (props.titleTask.current?.value.trim()) {
             props.addTask()
-        }else {
+        } else {
             setError('TITLE IS REQUIRED')
         }
     }
 
-    const onChangeCheckedTitleHandler = (tID: string, e: ChangeEvent<HTMLInputElement>) => {
-        props.onCheckedTitle(tID, e.currentTarget.checked)
-    }
-
-    const changeHandler = ()=> {
+    const changeHandler = () => {
         setError(null)
     }
 
-    const mappedTasks = props.tasks.map(t => <li key={t.id} className={t.isDone ? s.isDone: ''}>
+    const callBackChecked = (tID: string, isDone: boolean) => {
+        props.onCheckedTitle(tID, isDone)
+    }
+
+    const mappedTasks = props.tasks.map(t => <li key={t.id} className={t.isDone ? s.isDone : ''}>
         <Button name={'x'} callBack={() => removeTaskHandler(t.id)}/>
-        <input  onChange={(e) => onChangeCheckedTitleHandler(t.id, e)} type="checkbox" checked={t.isDone}/>
+        <CheckBox callBack={(isDone)=>callBackChecked(t.id, isDone)} isDone={t.isDone} />
         <span>{t.title}</span>
 
     </li>)
@@ -59,17 +60,22 @@ export function Todolist(props: PropsType) {
     return <div>
         <h3>{props.title}</h3>
         <div>
-            <input onChange={changeHandler} className={error ? s.error: ''} ref={props.titleTask}/>
-          <Button name={'+'} callBack={addTaskHandler}/>
+            <input onChange={changeHandler} className={error ? s.error : ''} ref={props.titleTask}/>
+            <Button name={'+'} callBack={addTaskHandler}/>
             {error && <div className={s.errorMessage}>{error}</div>}
         </div>
         <ul>
             {mappedTasks}
         </ul>
         <div>
-            <button className={buttonName === 'all'? s.activeFilter: ''} onClick={() => tsarChangeFilter('all')}>All</button>
-            <button className={buttonName === 'active'? s.activeFilter: ''} onClick={() => tsarChangeFilter('active')}>Active</button>
-            <button className={buttonName === 'completed'? s.activeFilter: ''} onClick={() => tsarChangeFilter('completed')}>Completed</button>
+            <button className={buttonName === 'all' ? s.activeFilter : ''} onClick={() => tsarChangeFilter('all')}>All
+            </button>
+            <button className={buttonName === 'active' ? s.activeFilter : ''}
+                    onClick={() => tsarChangeFilter('active')}>Active
+            </button>
+            <button className={buttonName === 'completed' ? s.activeFilter : ''}
+                    onClick={() => tsarChangeFilter('completed')}>Completed
+            </button>
         </div>
     </div>
 }
