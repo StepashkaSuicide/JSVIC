@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -21,7 +21,7 @@ type PropsType = {
     deleteTodo: (todolistID: string) => void
     addTodolist: (title: string) => void
     editableSpanUpdateHandler: (todolistID: string, taskID: string, title: string) => void
-    updateTitleTodolist: (todolistID: string, title: string)=>void
+    updateTitleTodolist: (todolistID: string, title: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -47,7 +47,7 @@ export function Todolist(props: PropsType) {
         props.editableSpanUpdateHandler(props.todolistID, taskID, title)
     }
 
-    const updateTitleTodolistHandler = (title: string)=> {
+    const updateTitleTodolistHandler = (title: string) => {
         props.updateTitleTodolist(props.todolistID, title)
     }
     return <div>
@@ -55,7 +55,7 @@ export function Todolist(props: PropsType) {
         <AddItemForm callBack={addTodolistHandler}/>
 
         <button onClick={deleteHandler}>DELETE</button>
-       <h3><EditableSpan title={props.title} callBack={updateTitleTodolistHandler}/></h3>
+        <h3><EditableSpan title={props.title} callBack={updateTitleTodolistHandler}/></h3>
         <div>
 
             <AddItemForm callBack={addTaskHandler}/>
@@ -74,7 +74,7 @@ export function Todolist(props: PropsType) {
                         <input type="checkbox"
                                onChange={onChangeHandler}
                                checked={t.isDone}/>
-                        <EditableSpan title={t.title} callBack={(title)=>editableSpanUpdate(t.id, title)}/>
+                        <EditableSpan title={t.title} callBack={(title) => editableSpanUpdate(t.id, title)}/>
                         <button onClick={onClickHandler}>x</button>
                     </li>
                 })
