@@ -53,18 +53,11 @@ function App() {
 
     function removeTask(todolistID: string, id: string) {
         setTasks({...tasks, [todolistID]: tasks[todolistID].filter(el => el.id !== id)})
-        // let filteredTasks = tasks.filter(t => t.id != id);
-        // setTasks(filteredTasks);
     }
 
     function addTask(todolistID: string, title: string) {
-        let task = {id: v1(), title: title, isDone: false};
+        let task = {id: v1(), title, isDone: false};
         setTasks({...tasks, [todolistID]: [task, ...tasks[todolistID]]})
-
-
-        // let task = {id: v1(), title: title, isDone: false};
-        // let newTasks = [task, ...tasks];
-        // setTasks(newTasks);
     }
 
 
@@ -80,6 +73,19 @@ function App() {
     const deleteTodo = (todolistID: string) => {
         setTodoLists(todoLists.filter(el => el.id !== todolistID))
         delete tasks[todolistID]
+    }
+    const addTodolist = (title: string) => {
+        const todolistID = v1()
+        let newTodo: TodoListsType = {id: todolistID, title, filter: 'all'}
+        setTodoLists([...todoLists, newTodo])
+        setTasks({...tasks, [todolistID]: []})
+    }
+
+    const editableSpanUpdateHandler = (todolistID: string, taskID: string, title: string) => {
+        setTasks({...tasks, [todolistID]: tasks[todolistID].map(t => t.id === taskID ? {...t, title} : t)})
+    }
+    const updateTitleTodolist = (todolistID: string, title: string) => {
+        setTodoLists(todoLists.map(t => t.id === todolistID ? {...t, title} : t))
     }
 
     return (
@@ -105,6 +111,9 @@ function App() {
                               changeTaskStatus={changeStatus}
                               filter={el.filter}
                               deleteTodo={deleteTodo}
+                              addTodolist={addTodolist}
+                              editableSpanUpdateHandler={editableSpanUpdateHandler}
+                              updateTitleTodolist={updateTitleTodolist}
                     />
                 )
             })}
