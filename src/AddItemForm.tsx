@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 type AddItemFormType = {
     callBack: (title: string) => void
 }
@@ -29,13 +30,18 @@ export const AddItemForm = (props: AddItemFormType) => {
 
     return (
         <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyPress={onKeyPressHandler}
-                   className={error ? "error" : ""}
+            <TextField
+                error={!!error}
+                id="outlined-textarea"
+                label={error ? 'title is required' :"Напиши что - нибудь"}
+                placeholder="Попався"
+                size={"small"}
+                multiline
+                value={title}
+                onChange={onChangeHandler}
+                onKeyPress={onKeyPressHandler}
             />
-            <button onClick={addTask}>+</button>
-            {error && <div className="error-message">{error}</div>}
+            <Button onClick={addTask} variant="contained">+</Button>
         </div>
     );
 };

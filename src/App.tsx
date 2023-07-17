@@ -10,7 +10,7 @@ type TodoListsType = {
     filter: FilterValuesType
 }
 
-type TasksAssocType = {
+export type TasksAssocType = {
     [key: string]: TaskType[]
 }
 
@@ -52,7 +52,7 @@ function App() {
 
 
     function removeTask(todolistID: string, id: string) {
-        setTasks({...tasks, [todolistID]: tasks[todolistID].filter(el => el.id !== id)})
+        //
     }
 
     function addTask(todolistID: string, title: string) {

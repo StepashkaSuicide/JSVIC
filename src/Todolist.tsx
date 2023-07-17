@@ -74,28 +74,7 @@ export function Todolist(props: PropsType) {
             <AddItemForm callBack={addTaskHandler}/>
 
         </div>
-
-        <ul>
-            {
-                props.tasks.map(t => {
-                    const onClickHandler = () => props.removeTask(props.todolistID, t.id)
-                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                        props.changeTaskStatus(props.todolistID, t.id, e.currentTarget.checked);
-                    }
-
-                    return <li key={t.id} className={t.isDone ? "is-done" : ""}>
-                        <ClearIcon onClick={onClickHandler} style={{color: 'lightseagreen'}}>x</ClearIcon>
-                        <input type="checkbox"
-                               onChange={onChangeHandler}
-                               checked={t.isDone}/>
-                        <EditableSpan title={t.title} callBack={(title) => editableSpanUpdate(t.id, title)}/>
-                        {/*<button onClick={onClickHandler}>x</button>*/}
-
-                    </li>
-                })
-            }
-        </ul>
-        <div>
+        <div style={{marginTop: '10px'}}>
             <Button variant={props.filter === 'all' ? 'outlined' : 'contained'}
                     onClick={onAllClickHandler} color='info'>all</Button>
             <Button variant={props.filter === 'active' ? 'outlined' : 'contained'}
@@ -110,5 +89,26 @@ export function Todolist(props: PropsType) {
             {/*        onClick={onCompletedClickHandler}>Completed*/}
             {/*</button>*/}
         </div>
+        <ul>
+            {
+                props.tasks.map(t => {
+                    const onClickHandler = () => props.removeTask(props.todolistID, t.id)
+                    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                        props.changeTaskStatus(props.todolistID, t.id, e.currentTarget.checked);
+                    }
+
+                    return <li style={{listStyleType: 'none'}}  key={t.id} className={t.isDone ? "is-done" : ""}>
+                        <ClearIcon onClick={onClickHandler} style={{color: 'lightseagreen',  cursor: 'pointer'}}>x</ClearIcon>
+                        <input type="checkbox"
+                               onChange={onChangeHandler}
+                               checked={t.isDone}/>
+                        <EditableSpan title={t.title} callBack={(title) => editableSpanUpdate(t.id, title)}/>
+                        {/*<button onClick={onClickHandler}>x</button>*/}
+
+                    </li>
+                })
+            }
+        </ul>
+
     </div>
 }
