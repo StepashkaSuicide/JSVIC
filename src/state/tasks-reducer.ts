@@ -1,12 +1,18 @@
 import {TasksStateType} from '../App';
 import {v1} from "uuid";
+import {AddTodolistActionType} from "./todolists-reducer";
 
 type RemoveTaskACType = ReturnType<typeof RemoveTaskAC>
 type AddTaskACType = ReturnType<typeof AddTaskAC>
 type ChangeTaskStatusACType = ReturnType<typeof ChangeTaskAC>
 type ChangeTaskTitleACType = ReturnType<typeof ChangeTaskTitleAC>
 
-type ActionsType = AddTaskACType | RemoveTaskACType | ChangeTaskStatusACType | ChangeTaskTitleACType
+type ActionsType =
+    AddTaskACType |
+    RemoveTaskACType |
+    ChangeTaskStatusACType |
+    ChangeTaskTitleACType |
+    AddTodolistActionType
 
 
 export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
@@ -18,27 +24,39 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             }
         }
         case 'ADD-TASK': {
-
             return {
                 ...state,
-                [action.payload.todolistID]: [{id: v1(), title: action.payload.title, isDone: false}, ...state[action.payload.todolistID]]
+                [action.payload.todolistID]: [{
+                    id: v1(),
+                    title: action.payload.title,
+                    isDone: false
+                }, ...state[action.payload.todolistID]]
             }
         }
         case 'CHANGE-TASK': {
-
             return {
                 ...state,
-                [action.payload.todolistID]:state[action.payload.todolistID].map(t=>t.id ===action.payload.taskID ? {...t, isDone: action.payload.isDone}:t)
+                [action.payload.todolistID]: state[action.payload.todolistID].map(t => t.id === action.payload.taskID ? {
+                    ...t,
+                    isDone: action.payload.isDone
+                } : t)
             }
         }
         case 'CHANGE-TITLE': {
-
             return {
                 ...state,
-                [action.payload.todolistID]:state[action.payload.todolistID].map(t=>t.id ===action.payload.taskID ? {...t, title: action.payload.title}:t)
+                [action.payload.todolistID]: state[action.payload.todolistID].map(t => t.id === action.payload.taskID ? {
+                    ...t,
+                    title: action.payload.title
+                } : t)
             }
         }
-
+        case "ADD-TODOLIST": {
+            return {
+                ...state,
+            [action.todolistID]: []
+            }
+        }
         default:
             throw new Error("I don't understand this type")
     }

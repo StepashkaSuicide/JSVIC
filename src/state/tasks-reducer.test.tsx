@@ -100,3 +100,4 @@ test('title of specified task should be changed', () => {
     expect(endState['todolistId2'][1].title).toBe('beer')
     expect(endState['todolistId1'][1].title).toBe('JS')
 })
+
