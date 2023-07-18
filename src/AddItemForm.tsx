@@ -1,48 +1,49 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-type AddItemFormType = {
-    callBack: (title: string) => void
+import {IconButton, TextField} from "@mui/material";
+import {AddBox} from "@mui/icons-material";
+
+
+
+type AddItemFormPropsType = {
+    addItem: (title: string) => void
 }
 
+export function AddItemForm(props: AddItemFormPropsType) {
 
-export const AddItemForm = (props: AddItemFormType) => {
     let [title, setTitle] = useState("")
     let [error, setError] = useState<string | null>(null)
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-    const addTask = () => {
+
+    const addItem = () => {
         if (title.trim() !== "") {
-            props.callBack(title.trim());
+            props.addItem(title);
             setTitle("");
         } else {
             setError("Title is required");
         }
     }
 
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value)
+    }
+
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.charCode === 13) {
-            addTask();
+            addItem();
         }
     }
 
-    return (
-        <div>
-            <TextField
-                error={!!error}
-                id="outlined-textarea"
-                label={error ? 'title is required' :"Напиши что - нибудь"}
-                placeholder="Попався"
-                size={"small"}
-                multiline
-                value={title}
-                onChange={onChangeHandler}
-                onKeyPress={onKeyPressHandler}
-            />
-            <Button onClick={addTask} variant="contained">+</Button>
-        </div>
-    );
-};
-
+    return <div>
+        <TextField variant="outlined"
+                   error={!!error}
+                   value={title}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   label="Title"
+                   helperText={error}
+        />
+        <IconButton color="primary" onClick={addItem}>
+            <AddBox />
+        </IconButton>
+    </div>
+}
