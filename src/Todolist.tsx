@@ -5,6 +5,7 @@ import {EditableSpan} from './EditableSpan';
 import IconButton from '@mui/material/IconButton/IconButton';
 import {Delete} from "@mui/icons-material";
 import {Button, Checkbox} from "@mui/material";
+import {log} from "util";
 
 
 export type TaskType = {
@@ -12,7 +13,6 @@ export type TaskType = {
     title: string
     isDone: boolean
 }
-
 
 
 type PropsType = {

@@ -15,6 +15,7 @@ import {
     ChangeTodolistTitleAC,
     RemoveTodolistAC
 } from "./state/todolists-reducer";
+import {Clock} from "./Clock";
 
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -69,6 +70,8 @@ function AppWithRedux() {
 
     return (
         <div className="App">
+
+            <Clock/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
