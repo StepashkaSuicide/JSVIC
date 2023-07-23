@@ -37,7 +37,7 @@ export type TasksStateType = {
 //     return (a > 0) + (b > 0) + (c > 0) == 2
 // }
 
-console.log(twoArePositive(1, 1, -1))
+// console.log(twoArePositive(1, 1, -1))
 
 
 function AppWithRedux() {
