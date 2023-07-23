@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
-import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
 import AppBar from '@mui/material/AppBar/AppBar';
 import {Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
@@ -28,6 +27,17 @@ export type TodolistType = {
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
+
+// function twoArePositive(a, b, c) {
+//     return [...arguments].filter(f => f > 0).length === 2
+//
+// }
+
+// function twoArePositive(a: number, b: number, c: number) {
+//     return (a > 0) + (b > 0) + (c > 0) == 2
+// }
+
+console.log(twoArePositive(1, 1, -1))
 
 
 function AppWithRedux() {
