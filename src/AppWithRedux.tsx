@@ -28,6 +28,18 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
+const counter = ()=> {
+    let count = 0
+    return ()=> {
+        console.log(++count)
+    }
+}
+
+const co = counter()
+co()
+co()
+co()
+
 // function twoArePositive(a, b, c) {
 //     return [...arguments].filter(f => f > 0).length === 2
 //
