@@ -43,6 +43,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.filter(tl => tl.id !== action.id)
         }
         case 'ADD-TODOLIST': {
+
             return [{
                 id: action.todolistId,
                 title: action.title,
@@ -52,23 +53,13 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             }, ...state]
         }
         case 'CHANGE-TODOLIST-TITLE': {
-            const todolist = state.find(tl => tl.id === action.id);
-            if (todolist) {
-                // если нашёлся - изменим ему заголовок
-                todolist.title = action.title;
-            }
-            return [...state]
+            return state.map(t=>t.id === action.id ? {...t, title: action.title}: t)
         }
         case 'CHANGE-TODOLIST-FILTER': {
-            const todolist = state.find(tl => tl.id === action.id);
-            if (todolist) {
-                // если нашёлся - изменим ему заголовок
-                todolist.filter = action.filter;
-            }
-            return [...state]
+            return state.map(t=>t.id === action.id ? {...t, filter: action.filter}: t)
         }
         case "SET_TODOLISTS": {
-           return action.todos.map((t)=>({...t, filter: 'all'}))
+            return action.todos.map((t) => ({...t, filter: 'all'}))
         }
         default:
             return state;
