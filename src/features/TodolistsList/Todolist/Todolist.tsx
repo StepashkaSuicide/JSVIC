@@ -24,7 +24,6 @@ type PropsType = {
     changeTodolistTitle: (id: string, newTitle: string) => void
     filter: FilterValuesType
     entityStatus: RequestStatusType
-
 }
 
 export const Todolist = React.memo(function (props: PropsType) {

@@ -107,6 +107,7 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             console.warn('task not found in the state')
             return
         }
+
         const apiModel: UpdateTaskModelType = {
             deadline: task.deadline,
             description: task.description,
@@ -136,6 +137,9 @@ export type UpdateDomainTaskModelType = {
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
+
+type setTasksStatusDisabledType = ReturnType<typeof setTasksStatusDisabledAC>
+
 type ActionsType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>
@@ -146,4 +150,4 @@ type ActionsType =
     | ReturnType<typeof setTasksAC>
     | SetStatusType
     | setErrorStatusType
-    | ReturnType<typeof setTasksStatusDisabledAC>
+    | setTasksStatusDisabledType
