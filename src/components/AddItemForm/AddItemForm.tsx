@@ -4,22 +4,22 @@ import IconButton from '@mui/material/IconButton';
 import { AddBox } from '@mui/icons-material';
 
 type AddItemFormPropsType = {
-    disabled?: boolean
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
-export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
+export const AddItemForm = React.memo(function ({addItem, disabled = false}: AddItemFormPropsType) {
     console.log('AddItemForm called')
 
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
 
-    const addItem = () => {
+    const addItemHandler = () => {
         if (title.trim() !== '') {
-            props.addItem(title)
-            setTitle('')
+            addItem(title);
+            setTitle('');
         } else {
-            setError('Title is required')
+            setError('Title is required');
         }
     }
 
@@ -29,24 +29,24 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (error !== null) {
-            setError(null)
+            setError(null);
         }
         if (e.charCode === 13) {
-            addItem()
+            addItemHandler();
         }
     }
 
     return <div>
         <TextField variant="outlined"
+                   disabled={disabled}
                    error={!!error}
                    value={title}
                    onChange={onChangeHandler}
                    onKeyPress={onKeyPressHandler}
                    label="Title"
                    helperText={error}
-                   disabled={props.disabled}
         />
-        <IconButton disabled={props.disabled} color="primary" onClick={addItem}>
+        <IconButton color="primary" onClick={addItemHandler} disabled={disabled}>
             <AddBox/>
         </IconButton>
     </div>
