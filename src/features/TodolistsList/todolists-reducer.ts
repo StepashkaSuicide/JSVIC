@@ -36,6 +36,7 @@ const slice = createSlice({
       return action.payload.todolists.map(tl => ({ ...tl, filter: 'all', entityStatus: 'idle' }))
     }
 
+
   }
 })
 
