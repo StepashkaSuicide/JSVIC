@@ -1,21 +1,22 @@
-import React, { useCallback, useEffect } from "react"
-import { useSelector } from "react-redux"
-import { AppRootStateType } from "app/store"
+import React, { useCallback, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { AppRootStateType } from 'app/store'
 import {
   addTodolistTC,
   changeTodolistTitleTC,
   fetchTodolistsTC,
   FilterValuesType,
-  removeTodolistTC, todolistActions,
+  removeTodolistTC,
+  todolistActions,
   TodolistDomainType
 } from './todolists-reducer'
-import { addTask, removeTaskTC, TasksStateType, tasksThunk, updateTaskTC } from './tasks-reducer'
-import { TaskStatuses } from "api/todolists-api"
-import { Grid, Paper } from "@mui/material"
-import { AddItemForm } from "components/AddItemForm/AddItemForm"
-import { Todolist } from "./Todolist/Todolist"
-import { Navigate } from "react-router-dom"
-import { useAppDispatch } from "hooks/useAppDispatch"
+import { removeTaskTC, TasksStateType, tasksThunk } from './tasks-reducer'
+import { TaskStatuses } from 'api/todolists-api'
+import { Grid, Paper } from '@mui/material'
+import { AddItemForm } from 'components/AddItemForm/AddItemForm'
+import { Todolist } from './Todolist/Todolist'
+import { Navigate } from 'react-router-dom'
+import { useAppDispatch } from 'hooks/useAppDispatch'
 
 type PropsType = {
   demo?: boolean
@@ -46,13 +47,11 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
   }, [])
 
   const changeStatus = useCallback(function(id: string, status: TaskStatuses, todolistId: string) {
-    const thunk = updateTaskTC(id, { status }, todolistId)
-    dispatch(thunk)
+    dispatch(tasksThunk.updateTask({taskId: id, todolistId, domainModel: { status }}))
   }, [])
 
   const changeTaskTitle = useCallback(function(id: string, newTitle: string, todolistId: string) {
-    const thunk = updateTaskTC(id, { title: newTitle }, todolistId)
-    dispatch(thunk)
+    dispatch(tasksThunk.updateTask({taskId:id, todolistId:todolistId, domainModel: {title: newTitle}}))
   }, [])
 
   const changeFilter = useCallback(function(filter: FilterValuesType, id: string) {
