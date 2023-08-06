@@ -137,3 +137,8 @@ export type UpdateTaskArgType = {
   todolistId: string
 }
 
+export type DeleteTaskArgType = {
+  taskId: string
+  todolistId: string
+}
+
